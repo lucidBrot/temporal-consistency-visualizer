@@ -21,7 +21,7 @@ DEBUG = False
 VERBOSE = True
 
 
-def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_prefix = "" ):
+def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_postfix = "" ):
     """
         Args:
             input_path: Directory Path where all the input frames reside.
@@ -56,13 +56,13 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_pref
             assert row >= 0 and row < h
 
     # prepare name of output file
-    output_name = os.path.join(output_path, f"{naming_prefix}__row{row}.png")
+    output_name = os.path.join(output_path, f"row{row}__{naming_postfix}.png")
 
     # setup is done, perform the work
     combine_frame_rows( frame_paths = sorted_frame_paths, row = row, output_name = output_name )
 
     if VERBOSE:
-        print(f"main() finished for {naming_prefix=}")
+        print(f"main() finished {row=} for {naming_postfix=}")
 
 def get_row( frame_path, row ):
     """
@@ -107,10 +107,11 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
 
 
 if __name__ == "__main__":
-    main( input_path = PROGRESSIVE_VID1_CLIP2, naming_prefix = 'progressive' )
-    main( input_path = INTERLACED_VID1_CLIP2, naming_prefix = 'interlaced' )
-    main( input_path = ex4a_v2_VID1_CLIP2, naming_prefix = 'ex4-v2' )
-    main( input_path = yadif_VID1_CLIP2, naming_prefix = 'yadif' )
-    main( input_path = ex8a_v1_VID1_CLIP2, naming_prefix = 'ex8a-v1' )
-    main( input_path = ex10a_v1_VID1_CLIP2, naming_prefix = 'ex10a-v1' )
-    main( input_path = ex9b_v1_VID1_CLIP2, naming_prefix = 'ex9b-v1' )
+    row = 300
+    main( input_path = PROGRESSIVE_VID1_CLIP2, row=row, naming_postfix = 'progressive' )
+    main( input_path = INTERLACED_VID1_CLIP2,  row=row, naming_postfix = 'interlaced' )
+    main( input_path = ex4a_v2_VID1_CLIP2,     row=row, naming_postfix = 'ex4-v2' )
+    main( input_path = yadif_VID1_CLIP2,       row=row, naming_postfix = 'yadif' )
+    main( input_path = ex8a_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex8a-v1' )
+    main( input_path = ex10a_v1_VID1_CLIP2,    row=row, naming_postfix = 'ex10a-v1' )
+    main( input_path = ex9b_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex9b-v1' )
