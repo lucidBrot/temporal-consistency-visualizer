@@ -123,6 +123,13 @@ def forallmodels ( basepath = BASEPATH, vid, clip, models = [], row = None ):
             'ex10a-v1': 'results_drdbnet_vimeo90k_weighted_ex10a-v1_275000',
        }
 
+    for model in models:
+        assert model in the_dict.keys()
+
+    for model in models:
+        resdir = os.path.join(basepath, the_dict[model], f"video{vid}", f"clip{clip}")
+        main ( input_path = resdir, row = row, naming_postfix = model )
+
 
 # TODO:
 # * build a collected image for comparing, automatically
@@ -130,12 +137,15 @@ def forallmodels ( basepath = BASEPATH, vid, clip, models = [], row = None ):
 
 
 if __name__ == "__main__":
-    row = 300
-    main( input_path = PROGRESSIVE_VID1_CLIP2, row=row, naming_postfix = 'progressive' )
-    main( input_path = INTERLACED_VID1_CLIP2,  row=row, naming_postfix = 'interlaced' )
-    main( input_path = ex4a_v2_VID1_CLIP2,     row=row, naming_postfix = 'ex4-v2' )
-    main( input_path = yadif_VID1_CLIP2,       row=row, naming_postfix = 'yadif' )
-    main( input_path = zhu_VID1_CLIP2,         row=row, naming_postfix = 'zhu' )
-    main( input_path = ex8a_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex8a-v1' )
-    main( input_path = ex10a_v1_VID1_CLIP2,    row=row, naming_postfix = 'ex10a-v1' )
-    main( input_path = ex9b_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex9b-v1' )
+    #row = 300
+    #main( input_path = PROGRESSIVE_VID1_CLIP2, row=row, naming_postfix = 'progressive' )
+    #main( input_path = INTERLACED_VID1_CLIP2,  row=row, naming_postfix = 'interlaced' )
+    #main( input_path = ex4a_v2_VID1_CLIP2,     row=row, naming_postfix = 'ex4-v2' )
+    #main( input_path = yadif_VID1_CLIP2,       row=row, naming_postfix = 'yadif' )
+    #main( input_path = zhu_VID1_CLIP2,         row=row, naming_postfix = 'zhu' )
+    #main( input_path = ex8a_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex8a-v1' )
+    #main( input_path = ex10a_v1_VID1_CLIP2,    row=row, naming_postfix = 'ex10a-v1' )
+    #main( input_path = ex9b_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex9b-v1' )
+
+    models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
+    forallmodels ( basepath = BASEPATH, vid = 6, clip = 2, row = 300, models = models )
