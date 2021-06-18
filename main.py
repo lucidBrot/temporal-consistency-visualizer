@@ -12,6 +12,7 @@ ex4a_v2_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\results_drdb
 yadif_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\results_yadif")
 ex8a_v1_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\weighted_ex8a-v1")
 ex10a_v1_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\weighted_ex10a-v1_275000")
+ex9b_v1_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\weighted_ex9b-v1_250000")
 ### <Stash of Paths/>
 
 THIS_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -100,6 +101,10 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
     combined_img = Image.fromarray(np_arrays)
     combined_img.save(output_name, "PNG")
 
+# TODO:
+# * build a collected image for comparing, automatically
+# * run on more videoclips and rows
+
 
 if __name__ == "__main__":
     main( input_path = PROGRESSIVE_VID1_CLIP2, naming_prefix = 'progressive' )
@@ -108,3 +113,4 @@ if __name__ == "__main__":
     main( input_path = yadif_VID1_CLIP2, naming_prefix = 'yadif' )
     main( input_path = ex8a_v1_VID1_CLIP2, naming_prefix = 'ex8a-v1' )
     main( input_path = ex10a_v1_VID1_CLIP2, naming_prefix = 'ex10a-v1' )
+    main( input_path = ex9b_v1_VID1_CLIP2, naming_prefix = 'ex9b-v1' )
