@@ -103,7 +103,7 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
     combined_img = Image.fromarray(np_arrays)
     combined_img.save(output_name, "PNG")
 
-def forallmodels ( basepath = BASEPATH, vid, clip, models = [], row = None ):
+def forallmodels ( basepath, vid, clip, models = [], row = None ):
     """
         models:     A list of models to use, given the dict inside this function
                     where it is assumed that each path of the form
@@ -115,6 +115,7 @@ def forallmodels ( basepath = BASEPATH, vid, clip, models = [], row = None ):
     # dict with models and their paths
     the_dict = {
             'progressive': 'progressive',
+            'interlaced': 'interlaced',
             'zhu': 'results_zhu',
             'yadif': 'results_yadif',
             'ex4a-v2': 'results_drdbnet_vimeo90k_ex4a-v2_832920',
@@ -128,7 +129,11 @@ def forallmodels ( basepath = BASEPATH, vid, clip, models = [], row = None ):
 
     for model in models:
         resdir = os.path.join(basepath, the_dict[model], f"video{vid}", f"clip{clip}")
-        main ( input_path = resdir, row = row, naming_postfix = model )
+        main ( input_path = resdir, row = row, naming_postfix = model, output_path = output_dir )
+
+def runall ( vid, clip, row = None ):
+    models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
+    forallmodels ( basepath = BASEPATH, vid = vid, clip = clip, row = row, models = models )
 
 
 # TODO:
@@ -147,5 +152,6 @@ if __name__ == "__main__":
     #main( input_path = ex10a_v1_VID1_CLIP2,    row=row, naming_postfix = 'ex10a-v1' )
     #main( input_path = ex9b_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex9b-v1' )
 
-    models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
-    forallmodels ( basepath = BASEPATH, vid = 6, clip = 2, row = 300, models = models )
+    #models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
+    #forallmodels ( basepath = BASEPATH, vid = 6, clip = 1, row = 250, models = models )
+    runall( vid = 2, clip = 0, row = 250 )
