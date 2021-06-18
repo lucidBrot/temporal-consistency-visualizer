@@ -6,11 +6,18 @@ import numpy as np
 from multiprocessing import Pool
 
 ### <Stash of Paths>
-PROGRESSIVE_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\progressive_video1_clip2")
+PROGRESSIVE_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\progressive_video1_clip2")
+INTERLACED_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\interlaced_video1_clip2")
+ex4a_v2_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\results_drdbnet_vimeo90k_ex4a-v2_832920")
+yadif_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\results_yadif")
+ex8a_v1_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\weighted_ex8a-v1")
+ex10a_v1_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\weighted_ex10a-v1_275000")
 ### <Stash of Paths/>
 
 THIS_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 DEFAULT_OUTPUT_PATH = os.path.join(THIS_DIR_PATH, "outputs")
+DEBUG = False
+VERBOSE = True
 
 
 def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_prefix = "" ):
@@ -33,6 +40,8 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_pref
     assert all([unexpected_format_pattern.match(x) is None for x in listed_dir]
                    ), "The frames are loaded in the order of ONLY the only number in the filename, ignoring all other characters. If you have multiple separate numbers, sorry, but that's not yet implemented."
     sorted_frame_filenames = sorted(listed_dir, key=lambda f: int(not_a_number_pattern.sub('', f)))
+    if DEBUG:
+        print(f"{sorted_frame_filenames=}")
     sorted_frame_paths = [ os.path.join(input_path, ff) for ff in sorted_frame_filenames ]
 
     # make sure output path exists
@@ -50,6 +59,9 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_pref
 
     # setup is done, perform the work
     combine_frame_rows( frame_paths = sorted_frame_paths, row = row, output_name = output_name )
+
+    if VERBOSE:
+        print(f"main() finished for {naming_prefix=}")
 
 def get_row( frame_path, row ):
     """
@@ -80,8 +92,9 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
         np_arrays = pool.map(work, [(xx, row) for xx in frame_paths[i : i + chunk_size]])
 
     np_arrays = np.squeeze(np.array(np_arrays), axis=1)
-    print(f"{np_arrays.shape=}")
-    print(f"{np_arrays[0][0]}")
+    if DEBUG:
+        print(f"{np_arrays.shape=}")
+        print(f"{np_arrays[0][0]}")
 
     # turn the list of rows into a numpy array, then that into an image
     combined_img = Image.fromarray(np_arrays)
@@ -89,4 +102,9 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
 
 
 if __name__ == "__main__":
-    main( input_path = PROGRESSIVE_VID1_CLIP2 )
+    main( input_path = PROGRESSIVE_VID1_CLIP2, naming_prefix = 'progressive' )
+    main( input_path = INTERLACED_VID1_CLIP2, naming_prefix = 'interlaced' )
+    main( input_path = ex4a_v2_VID1_CLIP2, naming_prefix = 'ex4-v2' )
+    main( input_path = yadif_VID1_CLIP2, naming_prefix = 'yadif' )
+    main( input_path = ex8a_v1_VID1_CLIP2, naming_prefix = 'ex8a-v1' )
+    main( input_path = ex10a_v1_VID1_CLIP2, naming_prefix = 'ex10a-v1' )
