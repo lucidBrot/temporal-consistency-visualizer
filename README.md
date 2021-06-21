@@ -1,57 +1,4 @@
-## Examples
-
-### Ocean 1
-
 ![](README.assets/row540__ocean1.png)
-
-```bash
-# get a video
-youtube-dl https://www.youtube.com/watch?v=Mci4m-6WoyM -f bestvideo 
-# split it into frames
-ffmpeg -i Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm frame%05d.png
-# move the video file out of the way, it would confuse the script
-mv Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm ../video.webm
-# take every frame (-s1) from the input directory (-i "N:\Temp\ocean") 
-# that lies between(inclusive) the frame00001.png (-b) and the frame00600.png (-e)
-# and save
-# to the output directory (-o ".\example-outputs") an image file that shows
-# how the middle row (omission of -r ROWNUMBER) changed over time
-# with filename postfixed with ocean1 (-n)
-python main.py v -i "N:\Temp\ocean" -n ocean1 -o ".\example-outputs" -b frame00001.png -e frame00600.png -s 1
-main() finished row=540 for naming_postfix='ocean1'
-```
-
-This runs a while.
-
-### Ocean 2
-
-![](./example-outputs/row240__ocean2.png)
-
-Same video, but this time with lower resolution, so it's faster.
-
-```bash
-# get video
-youtube-dl https://www.youtube.com/watch?v=Mci4m-6WoyM -f 'bestvideo[height<=480]'
-# this time we limit the threads to avoid the cpu being used at 100%
-ffmpeg -threads 2 -i Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm frame%05d.png
-# we could also delete the video now, instead of moving it away
-rm Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm
-
-# run the visualizer again, this time we want a square image.
-# according to the output of the youtube-dl command, we've actually got a 854x480 video although we said the height should be at most 480 ??!
-# so we make sure the range contains 480 frames I guess.
-# I want to start at frame 12519.png and thus stop at frame 12999.png 
-# because I'm still using a stride of 1.
-python main.py v -i "N:\Temp\ocean2" -n ocean2 -o ".\example-outputs" -b frame12519.png -e frame12999.png -s 1
-```
-
-This turned out less wide than expected, with only 80px height. Which means I must still have a bug in the code at the moment of writing this.
-
-### Oceana
-
-![](./example-outputs/row540__oceana.png)
-
-This beauty is what happens when I take the full 1080p video and run code on it that stops after 80 rows :(
 
 ## Usage
 
@@ -133,3 +80,59 @@ optional arguments:
   -r R, --row R    Which row. Default is the middle row.
 ```
 
+## Examples
+
+### Ocean 1
+
+![](README.assets/row540__ocean1.png)
+
+```bash
+# get a video
+youtube-dl https://www.youtube.com/watch?v=Mci4m-6WoyM -f bestvideo 
+# split it into frames
+ffmpeg -i Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm frame%05d.png
+# move the video file out of the way, it would confuse the script
+mv Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm ../video.webm
+# take every frame (-s1) from the input directory (-i "N:\Temp\ocean") 
+# that lies between(inclusive) the frame00001.png (-b) and the frame00600.png (-e)
+# and save
+# to the output directory (-o ".\example-outputs") an image file that shows
+# how the middle row (omission of -r ROWNUMBER) changed over time
+# with filename postfixed with ocean1 (-n)
+python main.py v -i "N:\Temp\ocean" -n ocean1 -o ".\example-outputs" -b frame00001.png -e frame00600.png -s 1
+main() finished row=540 for naming_postfix='ocean1'
+```
+
+This runs a while.
+
+### Ocean 2
+
+![](./example-outputs/row240__ocean2.png)
+
+Same video, but this time with lower resolution, so it's faster.
+
+```bash
+# get video
+youtube-dl https://www.youtube.com/watch?v=Mci4m-6WoyM -f 'bestvideo[height<=480]'
+# this time we limit the threads to avoid the cpu being used at 100%
+ffmpeg -threads 2 -i Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm frame%05d.png
+# we could also delete the video now, instead of moving it away
+rm Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\ \&\ Colorful\ Sea\ Life\ in\ UHD\ 🐟\ 🌊\ 🐠\ \[Mci4m-6WoyM\].webm
+
+# run the visualizer again, this time we want a square image.
+# according to the output of the youtube-dl command, we've actually got a 854x480 video although we said the height should be at most 480 ??!
+# so we make sure the range contains 480 frames I guess.
+# I want to start at frame 12519.png and thus stop at frame 12999.png 
+# because I'm still using a stride of 1.
+python main.py v -i "N:\Temp\ocean2" -n ocean2 -o ".\example-outputs" -b frame12519.png -e frame12999.png -s 1
+```
+
+This turned out less wide than expected, with only 80px height. Which means I must still have a bug in the code at the moment of writing this. Now that I have fixed this bug, the resulting image looks like this (except that I've used `-r 300`):
+
+![](./example-outputs/row300__ocean2.png)
+
+### Oceana
+
+![](./example-outputs/row540__oceana.png)
+
+This beauty is what happens when I take the full 1080p video and run code on it that stops after 40 rows :(

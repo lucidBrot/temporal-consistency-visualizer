@@ -62,6 +62,8 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_post
         first_index = 0 if first_filename is None else bisect.bisect_left(sorted_frame_filenames, first_filename)
         last_index = -1 if last_filename is None else bisect.bisect_left(sorted_frame_filenames, last_filename)
         sorted_frame_filenames = sorted_frame_filenames[first_index:last_index:stride]
+        if VERBOSE:
+            print(f"After applying the first_index/last_index/stride filters, {len(sorted_frame_filenames)} frames remain to be processed.")
 
     # prepare list of paths
     sorted_frame_paths = [ os.path.join(input_path, ff) for ff in sorted_frame_filenames ]
@@ -90,7 +92,8 @@ def get_row( frame_path, row ):
         w, h = im.size
         try:
             imgrow = im.crop((0, row, 0+w, 1+row))
-            return np.array(imgrow)
+            arr = np.array(imgrow)
+            return np.squeeze(arr, axis=0)
 
         except Exception as e:
             print(f"{frame_path}: {w=}, {h=}, {row=}")
@@ -107,10 +110,16 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
 
     pool = Pool()
     # limit number of same time, to avoid memory issues
+    np_arrays = list()
     for i in range(0, len(frame_paths), chunk_size):
-        np_arrays = pool.map(work, [(xx, row) for xx in frame_paths[i : i + chunk_size]])
+        np_arrays_new = pool.map(work, [(xx, row) for xx in frame_paths[i : i + chunk_size]])
+        np_arrays += np_arrays_new
 
-    np_arrays = np.squeeze(np.array(np_arrays), axis=1)
+    pool.close()
+    pool.join()
+
+    np_arrays = np.array(np_arrays)
+
     if DEBUG:
         print(f"{np_arrays.shape=}")
         print(f"{np_arrays[0][0]}")
