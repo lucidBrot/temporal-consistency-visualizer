@@ -15,6 +15,7 @@ python main.py visualize --inputdir "N:\Temp\videodir" --row 400 --outputdir ".\
 ```bash
 #: python main.py v -h
 usage: main.py visualise [-h] -i INPUTPATH [-o OUTPUTPATH] [-r R] [-n MODELNAME]
+                         [-b FIRST_FILENAME] [-e LAST_FILENAME] [-s STRIDE]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -26,7 +27,12 @@ optional arguments:
   -r R, --row R         Row to visualize change of. (default: middle row)
   -n MODELNAME, --name MODELNAME
                         Postfix with MODELNAME will be added to generated files.
-
+  -b FIRST_FILENAME, --start FIRST_FILENAME, --begin FIRST_FILENAME
+                        Any files before this filename will be ignored.
+  -e LAST_FILENAME, --end LAST_FILENAME
+                        Any files after this filename will be ignored.
+  -s STRIDE, --stride STRIDE
+                        How many frames to skip in each step. (default 1)
 ```
 
 

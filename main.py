@@ -5,6 +5,7 @@ from PIL import Image
 import numpy as np
 from multiprocessing import Pool
 import argparse
+import bisect
 
 ### <Stash of Paths>
 PROGRESSIVE_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\progressive_video1_clip2")
@@ -24,7 +25,8 @@ DEBUG = False
 VERBOSE = True
 
 
-def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_postfix = "" ):
+def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_postfix = "",
+            first_filename = None, last_filename = None, stride = 1):
     """
         Args:
             input_path: Directory Path where all the input frames reside.
@@ -32,6 +34,9 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_post
 
             row:        Which row to generate the figure for.
                         If `None`, a middle row is chosen.
+
+            first_filename:         see below
+            last_filename:      optional filters to only consider a certain range of frames.
     """
     # verify if input path exists
     if not os.path.isdir(input_path):
@@ -46,10 +51,20 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_post
     sorted_frame_filenames = sorted(listed_dir, key=lambda f: int(not_a_number_pattern.sub('', f)))
     if DEBUG:
         print(f"{sorted_frame_filenames=}")
-    sorted_frame_paths = [ os.path.join(input_path, ff) for ff in sorted_frame_filenames ]
 
     # make sure output path exists
     os.makedirs(output_path, exist_ok=True)
+
+    # trim the list of filenames to the wished for range
+    if stride is None:
+        stride = 1
+    if not (first_filename is None and last_filename is None):
+        first_index = 0 if first_filename is None else bisect.bisect_left(sorted_frame_filenames, first_filename)
+        last_index = -1 if last_filename is None else bisect.bisect_left(sorted_frame_filenames, last_filename)
+        sorted_frame_filenames = sorted_frame_filenames[first_index:last_index:stride]
+
+    # prepare list of paths
+    sorted_frame_paths = [ os.path.join(input_path, ff) for ff in sorted_frame_filenames ]
 
     # compute the middle row index if it is not set
     if row is None:
@@ -167,6 +182,9 @@ def parse_args ():
     visualizer.add_argument('-o', '--outputdir', type=str, metavar='OUTPUTPATH', required=False, dest='output_path', help="Path to the directory where the output should be saved in. (default: directly in ./outputs relative to main.py)", default=None)
     visualizer.add_argument('-r', '--row', type=int, metavar='R', default=None, help="Row to visualize change of. (default: middle row)", dest='row')
     visualizer.add_argument('-n', '--name', type=str, metavar='MODELNAME', default='', dest='naming_postfix', help="Postfix with MODELNAME will be added to generated files.")
+    visualizer.add_argument('-b', '--start', '--begin', type=str, metavar='FIRST_FILENAME', default=None, dest='first_filename', help="Any files before this filename will be ignored.", required=False)
+    visualizer.add_argument('-e', '--end', type=str, metavar='LAST_FILENAME', default=None, dest='last_filename', help="Any files after this filename will be ignored.", required=False)
+    visualizer.add_argument('-s', '--stride', type=int, metavar='STRIDE', default=1, dest='stride', help="How many frames to skip in each step. (default 1)")
     visualizer.set_defaults(func=argparse_main)
 
     # used for my specific use case and format
