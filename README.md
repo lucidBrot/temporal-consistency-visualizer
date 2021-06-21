@@ -1,4 +1,4 @@
-![](README.assets/row540__ocean1.png)
+![](./example-outputs/row540__ocean1old.png)
 
 ## Usage
 
@@ -84,7 +84,7 @@ optional arguments:
 
 ### Ocean 1
 
-![](README.assets/row540__ocean1.png)
+![](./example-outputs/row540__ocean1.png)
 
 ```bash
 # get a video
@@ -127,12 +127,15 @@ rm Under\ The\ SEA\ 4K\ Underwater\ Wonders\ +\ Amazing\ Music\ -\ Coral\ Reefs\
 python main.py v -i "N:\Temp\ocean2" -n ocean2 -o ".\example-outputs" -b frame12519.png -e frame12999.png -s 1
 ```
 
-This turned out less wide than expected, with only 80px height. Which means I must still have a bug in the code at the moment of writing this. Now that I have fixed this bug, the resulting image looks like this (except that I've used `-r 300`):
 
-![](./example-outputs/row300__ocean2.png)
 
-### Oceana
+### More Examples without Comment
 
 ![](./example-outputs/row540__oceana.png)
 
-This beauty is what happens when I take the full 1080p video and run code on it that stops after 40 rows :(
+![](./example-outputs/row750__ocean1.png)
+
+![row240__ocean2a](README.assets/row240__ocean2a.png)
+
+![row240__ocean2b](README.assets/row240__ocean2b.png)
+
