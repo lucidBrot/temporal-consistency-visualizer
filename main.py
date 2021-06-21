@@ -154,4 +154,4 @@ if __name__ == "__main__":
 
     #models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
     #forallmodels ( basepath = BASEPATH, vid = 6, clip = 1, row = 250, models = models )
-    runall( vid = 2, clip = 0, row = 250 )
+    runall( vid = 5, clip = 0, row = None )
