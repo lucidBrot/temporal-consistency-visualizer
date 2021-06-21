@@ -4,6 +4,7 @@ import re
 from PIL import Image
 import numpy as np
 from multiprocessing import Pool
+import argparse
 
 ### <Stash of Paths>
 PROGRESSIVE_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\progressive_video1_clip2")
@@ -132,9 +133,45 @@ def forallmodels ( basepath, vid, clip, models = [], row = None ):
         main ( input_path = resdir, row = row, naming_postfix = model, output_path = output_dir )
 
 def runall ( vid, clip, row = None ):
+    """
+        To be called from the command line like
+        python -c "import main as m; m.runall( vid = 5, clip = 0, row = 123 )"
+        ... unless that requires that __file__ is set, perhaps?
+    """
     models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
     forallmodels ( basepath = BASEPATH, vid = vid, clip = clip, row = row, models = models )
 
+def argparse_runall ( args ):
+    """
+        wrapper function to avoid issue with argparse saying
+        runall() missing 1 required positional argument: 'clip'
+    """
+    runall( args.vid, args.clip, args.row )
+
+def parse_args ():
+    parser = argparse.ArgumentParser(description='Visualize temporal consistency as an image.')
+    subparsers = parser.add_subparsers(dest = 'subcommand')
+
+    visualizer = subparsers.add_parser('visualise', aliases=['v'])
+
+    # used for my specific use case and format
+    runaller   = subparsers.add_parser('runall', aliases=['r'])
+    runaller.add_argument('-v', '--video', type=int, metavar='V', help="Number of the video", required=True, dest='vid')
+    runaller.add_argument('-c', '--clip', type=int,  metavar='C', help="Number of the clip", required=True)
+    runaller.add_argument('-r', '--row', type=int, default = None, metavar='R', help="Which row. Default is the middle row.", required=False)
+    runaller.set_defaults(func=argparse_runall)
+
+    parsing_failed = False
+    try:
+        args = parser.parse_args()
+    except:
+        parsing_failed = True
+    if args.subcommand is None or parsing_failed:
+        print("You're using it wrong!")
+        parser.parse_args(['-h'])
+
+    print(args)
+    args.func(args)
 
 # TODO:
 # * build a collected image for comparing, automatically
@@ -154,4 +191,7 @@ if __name__ == "__main__":
 
     #models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
     #forallmodels ( basepath = BASEPATH, vid = 6, clip = 1, row = 250, models = models )
-    runall( vid = 5, clip = 0, row = None )
+    
+    #runall( vid = 5, clip = 0, row = None )
+
+    parse_args()
