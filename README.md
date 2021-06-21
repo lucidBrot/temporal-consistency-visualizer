@@ -143,13 +143,13 @@ The below images all used the video here as source material:
 
 ![row240__ocean2a](README.assets/row240__ocean2a.png)
 
-![row240__ocean2b](README.assets/row240__ocean2b.png)
-
-![row240__ocean2d](README.assets/row240__ocean2d.png)
+![row240__ocean2e](README.assets/row240__ocean2e.png)
 
 ![row240__ocean2c](README.assets/row240__ocean2c.png)
 
-![row240__ocean2e](README.assets/row240__ocean2e.png)
+![row240__ocean2b](README.assets/row240__ocean2b.png)
+
+![row240__ocean2d](README.assets/row240__ocean2d.png)
 
 also have a look at `row540__oceanb.png` which is too long for nice displaying in this readme, but should be found [here](./example-outputs/row540__oceanb.png).
 
