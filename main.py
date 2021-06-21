@@ -148,11 +148,26 @@ def argparse_runall ( args ):
     """
     runall( args.vid, args.clip, args.row )
 
+def argparse_main ( argz ):
+    """
+        wrapper function for argparse
+    """
+    # avoid unset values, use function's defaults instead
+    argzz = vars(argz)
+    args = { k: v for k, v in argzz.items() if v is not None and k != 'subcommand' and k != 'func' }
+    main(**args)
+
 def parse_args ():
     parser = argparse.ArgumentParser(description='Visualize temporal consistency as an image.')
     subparsers = parser.add_subparsers(dest = 'subcommand')
 
-    visualizer = subparsers.add_parser('visualise', aliases=['v'])
+    # direct usage for just one video clip
+    visualizer = subparsers.add_parser('visualise', aliases=['v', 'visualize'])
+    visualizer.add_argument('-i', '--inputdir', type=str, metavar='INPUTPATH', required=True, dest='input_path', help="Path to the directory containing the numbered frames")
+    visualizer.add_argument('-o', '--outputdir', type=str, metavar='OUTPUTPATH', required=False, dest='output_path', help="Path to the directory where the output should be saved in. (default: directly in ./outputs relative to main.py)", default=None)
+    visualizer.add_argument('-r', '--row', type=int, metavar='R', default=None, help="Row to visualize change of. (default: middle row)", dest='row')
+    visualizer.add_argument('-n', '--name', type=str, metavar='MODELNAME', default='', dest='naming_postfix', help="Postfix with MODELNAME will be added to generated files.")
+    visualizer.set_defaults(func=argparse_main)
 
     # used for my specific use case and format
     runaller   = subparsers.add_parser('runall', aliases=['r'])
@@ -162,16 +177,14 @@ def parse_args ():
     runaller.set_defaults(func=argparse_runall)
 
     parsing_failed = False
-    try:
-        args = parser.parse_args()
-    except:
-        parsing_failed = True
-    if args.subcommand is None or parsing_failed:
-        print("You're using it wrong!")
-        parser.parse_args(['-h'])
+    args = parser.parse_args()
 
-    print(args)
-    args.func(args)
+    if parsing_failed:
+        parser.parse_args(['-h'])
+    else:
+        if args.subcommand is not None:
+            #print(args)
+            args.func(args)
 
 # TODO:
 # * build a collected image for comparing, automatically
