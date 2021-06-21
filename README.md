@@ -151,7 +151,9 @@ The below images all used the video here as source material:
 
 ![row240__ocean2d](README.assets/row240__ocean2d.png)
 
-also have a look at `row540__oceanb.png` which is too long for nice displaying in this readme, but should be found [here](./example-outputs/row540__oceanb.png).
+![image-20210621234728004](README.assets/image-20210621234728004.png)
+
+Also have a look at `row540__oceanb.png` which is too long for nice displaying in this readme, but should be found [here](./example-outputs/row540__oceanb.png).
 
 ### Fire
 

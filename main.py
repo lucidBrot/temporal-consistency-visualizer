@@ -141,12 +141,6 @@ def forallmodels ( basepath, vid, clip, models = [], row = None ):
     the_dict = {
             'progressive': 'progressive',
             'interlaced': 'interlaced',
-            'zhu': 'results_zhu',
-            'yadif': 'results_yadif',
-            'ex4a-v2': 'results_drdbnet_vimeo90k_ex4a-v2_832920',
-            'ex8a-v1': 'results_drdbnet_vimeo90k_weighted_ex8a-v1',
-            'ex9b-v1': 'results_drdbnet_vimeo90k_weighted_ex9b-v1_250000',
-            'ex10a-v1': 'results_drdbnet_vimeo90k_weighted_ex10a-v1_275000',
        }
 
     for model in models:
@@ -162,7 +156,7 @@ def runall ( vid, clip, row = None ):
         python -c "import main as m; m.runall( vid = 5, clip = 0, row = 123 )"
         ... unless that requires that __file__ is set, perhaps?
     """
-    models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
+    models = [ 'progressive' ]
     forallmodels ( basepath = BASEPATH, vid = vid, clip = clip, row = row, models = models )
 
 def argparse_runall ( args ):
@@ -213,25 +207,5 @@ def parse_args ():
             #print(args)
             args.func(args)
 
-# TODO:
-# * build a collected image for comparing, automatically
-# * run on more videoclips and rows
-
-
 if __name__ == "__main__":
-    #row = 300
-    #main( input_path = PROGRESSIVE_VID1_CLIP2, row=row, naming_postfix = 'progressive' )
-    #main( input_path = INTERLACED_VID1_CLIP2,  row=row, naming_postfix = 'interlaced' )
-    #main( input_path = ex4a_v2_VID1_CLIP2,     row=row, naming_postfix = 'ex4-v2' )
-    #main( input_path = yadif_VID1_CLIP2,       row=row, naming_postfix = 'yadif' )
-    #main( input_path = zhu_VID1_CLIP2,         row=row, naming_postfix = 'zhu' )
-    #main( input_path = ex8a_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex8a-v1' )
-    #main( input_path = ex10a_v1_VID1_CLIP2,    row=row, naming_postfix = 'ex10a-v1' )
-    #main( input_path = ex9b_v1_VID1_CLIP2,     row=row, naming_postfix = 'ex9b-v1' )
-
-    #models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
-    #forallmodels ( basepath = BASEPATH, vid = 6, clip = 1, row = 250, models = models )
-    
-    #runall( vid = 5, clip = 0, row = None )
-
     parse_args()
