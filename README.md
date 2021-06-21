@@ -129,7 +129,13 @@ python main.py v -i "N:\Temp\ocean2" -n ocean2 -o ".\example-outputs" -b frame12
 
 
 
-### More Examples without Comment
+## Gallery
+
+### Ocean 3
+
+The below images all used the video here as source material:
+
+> https://www.youtube.com/watch?v=Mci4m-6WoyM
 
 ![](./example-outputs/row540__oceana.png)
 
@@ -138,4 +144,26 @@ python main.py v -i "N:\Temp\ocean2" -n ocean2 -o ".\example-outputs" -b frame12
 ![row240__ocean2a](README.assets/row240__ocean2a.png)
 
 ![row240__ocean2b](README.assets/row240__ocean2b.png)
+
+![row240__ocean2d](README.assets/row240__ocean2d.png)
+
+![row240__ocean2c](README.assets/row240__ocean2c.png)
+
+![row240__ocean2e](README.assets/row240__ocean2e.png)
+
+also have a look at `row540__oceanb.png` which is too long for nice displaying in this readme, but should be found [here](./example-outputs/row540__oceanb.png).
+
+### Fire
+
+The following images use the video material from here:
+
+> Video by **[Motion Places - Free Stock Video](https://www.pexels.com/@motion-places-free-stock-video-701499?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)** from **[Pexels](https://www.pexels.com/photo/burning-firewood-1535674/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)**
+>
+> https://www.pexels.com/video/burning-firewood-1535674/
+
+![row540__fireA](README.assets/row540__fireA.png)
+
+![row1000__fireB](README.assets/row1000__fireB.png)
+
+![row1__fireB](README.assets/row1__fireB.png)
 

@@ -58,9 +58,9 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_post
     # trim the list of filenames to the wished for range
     if stride is None:
         stride = 1
-    if not (first_filename is None and last_filename is None):
+    if (not (first_filename is None and last_filename is None)) or stride != 1:
         first_index = 0 if first_filename is None else bisect.bisect_left(sorted_frame_filenames, first_filename)
-        last_index = -1 if last_filename is None else bisect.bisect_left(sorted_frame_filenames, last_filename)
+        last_index = len(sorted_frame_filenames) if last_filename is None else bisect.bisect_left(sorted_frame_filenames, last_filename)
         sorted_frame_filenames = sorted_frame_filenames[first_index:last_index:stride]
         if VERBOSE:
             print(f"After applying the first_index/last_index/stride filters, {len(sorted_frame_filenames)} frames remain to be processed.")
