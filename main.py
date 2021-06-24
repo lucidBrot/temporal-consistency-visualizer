@@ -141,6 +141,12 @@ def forallmodels ( basepath, vid, clip, models = [], row = None ):
     the_dict = {
             'progressive': 'progressive',
             'interlaced': 'interlaced',
+            'zhu': 'results_zhu',
+            'yadif': 'results_yadif',
+            'ex4a-v2': 'results_drdbnet_vimeo90k_ex4a-v2_832920',
+            'ex8a-v1': 'results_drdbnet_vimeo90k_weighted_ex8a-v1',
+            'ex9b-v1': 'results_drdbnet_vimeo90k_weighted_ex9b-v1_250000',
+            'ex10a-v1': 'results_drdbnet_vimeo90k_weighted_ex10a-v1_275000',
        }
 
     for model in models:
@@ -156,7 +162,7 @@ def runall ( vid, clip, row = None ):
         python -c "import main as m; m.runall( vid = 5, clip = 0, row = 123 )"
         ... unless that requires that __file__ is set, perhaps?
     """
-    models = [ 'progressive' ]
+    models = [ 'progressive', 'zhu', 'yadif', 'ex4a-v2', 'ex8a-v1', 'ex9b-v1', 'ex10a-v1' ]
     forallmodels ( basepath = BASEPATH, vid = vid, clip = clip, row = row, models = models )
 
 def argparse_runall ( args ):
