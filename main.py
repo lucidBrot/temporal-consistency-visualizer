@@ -6,6 +6,17 @@ import numpy as np
 from multiprocessing import Pool
 import argparse
 import bisect
+try:
+    from priv import the_dict, model_choices
+except:
+    # You can modify these! But you probably don't want to, because
+    # you aren't using the runall command anyway, only the visualize
+    # which does not use this.
+    the_dict = { 
+        'progressive': 'progressive',
+        'interlaced': 'interlaced',
+        }
+    model_choices = ['progressive']
 
 ### <Stash of Paths>
 PROGRESSIVE_VID1_CLIP2 = os.path.normpath(r"N:\Temp\videos\video1_clip2\progressive_video1_clip2")
@@ -142,11 +153,7 @@ def forallmodels ( basepath, vid, clip, models = [], row = None ):
     output_dir = os.path.join(DEFAULT_OUTPUT_PATH, f"video{vid}_clip{clip}")
 
     # dict with models and their paths
-    the_dict = {
-            'progressive': 'progressive',
-            'interlaced': 'interlaced',
-       }
-
+    
     for model in models:
         assert model in the_dict.keys()
 
@@ -160,8 +167,7 @@ def runall ( vid, clip, row = None ):
         python -c "import main as m; m.runall( vid = 5, clip = 0, row = 123 )"
         ... unless that requires that __file__ is set, perhaps?
     """
-    models = [ 'progressive' ]
-    forallmodels ( basepath = BASEPATH, vid = vid, clip = clip, row = row, models = models )
+    forallmodels ( basepath = BASEPATH, vid = vid, clip = clip, row = row, models = model_choices )
 
 def argparse_runall ( args ):
     """
