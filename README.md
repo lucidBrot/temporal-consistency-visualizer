@@ -169,6 +169,17 @@ The following images use the video material from here:
 
 ![row1__fireB](README.assets/row1__fireB.png)
 
-## TODO
+### Own
 
-Generate a test video where the line moves in known ways, to test for correctness.
+Videos I recorded myself.
+
+![](./example-outputs/spiralpaper/row1000__spiralpaper1.png)
+
+![](./example-outputs/globe/row540__globe1.png)
+
+![](./example-outputs/spiralfan/row150__spiralfan.png)
+
+![](./example-outputs/globe/row200_globe_cropped.png)
+
+![](./example-outputs/globe/row612__globes20.png)
+
