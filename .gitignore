@@ -1,1 +1,3 @@
 outputs
+*.swp
+__pycache__
