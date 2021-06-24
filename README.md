@@ -169,3 +169,6 @@ The following images use the video material from here:
 
 ![row1__fireB](README.assets/row1__fireB.png)
 
+## TODO
+
+Generate a test video where the line moves in known ways, to test for correctness.
