@@ -26,7 +26,7 @@ VERBOSE = True
 
 
 def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_postfix = "",
-            first_filename = None, last_filename = None, stride = 1):
+            first_filename = None, last_filename = None, stride = 1, rotation_angle = 0):
     """
         Args:
             input_path: Directory Path where all the input frames reside.
@@ -71,6 +71,8 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_post
     # compute the middle row index if it is not set
     if row is None:
         with Image.open(sorted_frame_paths[0]) as im:
+            if rotation_angle != 0:
+                im = im.rotate(rotation_angle)
             w, h = im.size
             row = h//2
             assert row >= 0 and row < h
@@ -79,16 +81,18 @@ def main( input_path, row = None, output_path = DEFAULT_OUTPUT_PATH, naming_post
     output_name = os.path.join(output_path, f"row{row}__{naming_postfix}.png")
 
     # setup is done, perform the work
-    combine_frame_rows( frame_paths = sorted_frame_paths, row = row, output_name = output_name )
+    combine_frame_rows( frame_paths = sorted_frame_paths, row = row, output_name = output_name, rotation_angle = rotation_angle )
 
     if VERBOSE:
         print(f"main() finished {row=} for {naming_postfix=}")
 
-def get_row( frame_path, row ):
+def get_row( frame_path, row, rotate=0 ):
     """
         get the row of one image as an array
     """
     with Image.open( frame_path ) as im:
+        if rotate != 0:
+            im = im.rotate(rotate)
         w, h = im.size
         try:
             imgrow = im.crop((0, row, 0+w, 1+row))
@@ -100,10 +104,10 @@ def get_row( frame_path, row ):
             raise e
 
 def work ( some_tuple ):
-    frame_path, row = some_tuple
-    return get_row( frame_path, row )
+    frame_path, row, rotate = some_tuple
+    return get_row( frame_path, row, rotate = rotate or 0 )
 
-def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
+def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200, rotation_angle = 0 ):
     """
         multiprocessing for speed
     """
@@ -112,7 +116,7 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200 ):
     # limit number of same time, to avoid memory issues
     np_arrays = list()
     for i in range(0, len(frame_paths), chunk_size):
-        np_arrays_new = pool.map(work, [(xx, row) for xx in frame_paths[i : i + chunk_size]])
+        np_arrays_new = pool.map(work, [(xx, row, rotation_angle) for xx in frame_paths[i : i + chunk_size]])
         np_arrays += np_arrays_new
 
     pool.close()
@@ -194,6 +198,7 @@ def parse_args ():
     visualizer.add_argument('-b', '--start', '--begin', type=str, metavar='FIRST_FILENAME', default=None, dest='first_filename', help="Any files before this filename will be ignored.", required=False)
     visualizer.add_argument('-e', '--end', type=str, metavar='LAST_FILENAME', default=None, dest='last_filename', help="Any files after this filename will be ignored.", required=False)
     visualizer.add_argument('-s', '--stride', type=int, metavar='STRIDE', default=1, dest='stride', help="How many frames to skip in each step. (default 1)")
+    visualizer.add_argument('-a', '--rotation-angle', type=int, default=0, dest='rotation_angle', help="Rotate frames by X degrees counterclockwise.", metavar='X')
     visualizer.set_defaults(func=argparse_main)
 
     # used for my specific use case and format
