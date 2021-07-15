@@ -8,7 +8,8 @@ import argparse
 import bisect
 try:
     from priv import the_dict, model_choices
-except:
+except Exception as e:
+    #print(f"(Normal Users do not care about this, but: )  {e}")
     # You can modify these! But you probably don't want to, because
     # you aren't using the runall command anyway, only the visualize
     # which does not use this.
