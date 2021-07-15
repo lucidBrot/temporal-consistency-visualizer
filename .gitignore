@@ -1,3 +1,4 @@
 outputs
 *.swp
 __pycache__
+priv.py
