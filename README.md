@@ -6,7 +6,9 @@ Built for python 3.9.2.
 
 If it does not work for your older python version, it might be enough to just comment out all print statements containing `=}`.
 
-Assumes the frames are image files containing a single number in the filename, which is used for sorting them.
+Assumes the frames are image files containing a single number in the filename, which is used for sorting them. 
+
+Any frames whose image file names start with `weights` are ignored.
 
 ### Direct Usage
 
