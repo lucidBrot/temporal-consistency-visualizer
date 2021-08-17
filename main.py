@@ -128,7 +128,8 @@ def combine_frame_rows( frame_paths, row, output_name, chunk_size = 200, rotatio
     # limit number of same time, to avoid memory issues
     np_arrays = list()
     for i in range(0, len(frame_paths), chunk_size):
-        np_arrays_new = pool.map(work, [(xx, row, rotation_angle) for xx in frame_paths[i : i + chunk_size]])
+        # but skip the visualized weight images
+        np_arrays_new = pool.map(work, [(xx, row, rotation_angle) for xx in frame_paths[i : i + chunk_size] if not(os.path.basename(xx).startswith('weights')) ])
         np_arrays += np_arrays_new
 
     pool.close()
